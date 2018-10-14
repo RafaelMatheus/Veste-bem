@@ -1,8 +1,5 @@
 package br.com.vestebem.controller;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +18,7 @@ public class CategoriaController {
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public ResponseEntity<?> findById(@PathVariable Integer id) {
-		 Optional<Categoria> categoria = categoriaService.findById(id);
+		 Categoria categoria = categoriaService.findById(id);
 		 return ResponseEntity.ok().body(categoria);
 	}
 }

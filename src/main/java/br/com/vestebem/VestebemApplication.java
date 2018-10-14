@@ -35,6 +35,7 @@ public class VestebemApplication implements CommandLineRunner {
 
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2));
 		cat1.getProdutos().addAll(Arrays.asList(p2));
+		
 
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));

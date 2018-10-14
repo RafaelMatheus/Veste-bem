@@ -9,12 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Categoria {
 	@Id()
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 	private String nome;
+	@JsonManagedReference
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<Produto>();
 
