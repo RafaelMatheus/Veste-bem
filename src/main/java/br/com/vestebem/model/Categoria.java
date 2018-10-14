@@ -1,4 +1,4 @@
-package br.com.vestebem.domain;
+package br.com.vestebem.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
