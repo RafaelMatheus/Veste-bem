@@ -16,6 +16,7 @@ public class ResourceExceptionHandler {
 				HttpStatus.NOT_FOUND.value(),
 				objectNotFoundException.getMessage(), 
 				System.currentTimeMillis());
+		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
 		
 	}
