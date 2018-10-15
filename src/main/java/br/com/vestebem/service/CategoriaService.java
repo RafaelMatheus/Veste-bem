@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.vestebem.model.Categoria;
+import br.com.vestebem.model.dto.CategoriaDto;
 import br.com.vestebem.repositories.CategoriaRepository;
 import br.com.vestebem.service.exceptions.ObjectNotFoundException;
 
@@ -47,6 +48,9 @@ public class CategoriaService {
 					+ " associados");
 		}
 		
+	}
+	public Categoria fromDto(CategoriaDto categoriaDto) {
+		return new Categoria(categoriaDto.getId(), categoriaDto.getNome());
 	}
 
 }

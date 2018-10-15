@@ -8,12 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Categoria {
 	@Id()
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
+	@NotEmpty(message="Preenchimento do campo nome é obrigatório")
+	@Length(min=5,max=80,message="Tamanho deve ter entre 5 e 80 caractes")
 	private String nome;
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<Produto>();
