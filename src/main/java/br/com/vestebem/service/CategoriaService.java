@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.vestebem.model.Categoria;
@@ -33,6 +34,19 @@ public class CategoriaService {
 	public Categoria update(Categoria categoria) {
 		this.findById(categoria.getId());
 		return categoriaRepository.save(categoria);
+	}
+	
+	public void delete(Integer id) {
+		this.findById(id);
+		try {
+			categoriaRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new br.com.vestebem.service.exceptions.
+					DataIntegrityViolationException("Não é possivel excluir "
+					+ "categorias com produtos"
+					+ " associados");
+		}
+		
 	}
 
 }
