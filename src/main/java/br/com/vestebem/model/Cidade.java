@@ -15,7 +15,6 @@ public class Cidade {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 	private String nome;
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "ESTADO_ID")
 	private Estado estado;

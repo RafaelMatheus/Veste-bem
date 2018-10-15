@@ -9,6 +9,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.vestebem.model.enums.EstadoPagamento;
 
@@ -18,7 +20,7 @@ public abstract class Pagamento {
 	@Id
 	private Integer id;
 	private Integer estado;
-	@JsonBackReference
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="PEDIDO_ID")
 	@MapsId

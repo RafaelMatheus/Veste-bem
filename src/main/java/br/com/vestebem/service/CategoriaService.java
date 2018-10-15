@@ -18,11 +18,15 @@ public class CategoriaService {
 	public List<Categoria> findall() {
 		return categoriaRepository.findAll();
 	}
+
 	public Categoria findById(Integer id) {
 		Optional<Categoria> categoria = categoriaRepository.findById(id);
-		return categoria.orElseThrow(
-				()->new ObjectNotFoundException("Objeto com o "
-				+ "id "+id+" não encontrado, tipo: "
-				+Categoria.class.getName()));
+		return categoria.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto com o " + "id " + id + " não encontrado, tipo: " + Categoria.class.getName()));
+	}
+
+	public Categoria insert(Categoria categoria) {
+		categoria.setId(null);
+		return categoriaRepository.save(categoria);
 	}
 }
