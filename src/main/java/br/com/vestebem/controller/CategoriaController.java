@@ -1,6 +1,7 @@
 package br.com.vestebem.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,14 @@ import br.com.vestebem.service.CategoriaService;
 public class CategoriaController {
 	@Autowired
 	CategoriaService categoriaService;
-
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Categoria>> findAll() {
+		List<Categoria> categorias = categoriaService.findall();
+		return ResponseEntity.ok().body(categorias);
+	}
+	
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
 		Categoria categoria = categoriaService.findById(id);
