@@ -12,10 +12,10 @@ import br.com.vestebem.model.enums.EstadoPagamento;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
-public class Pagamento {
+public abstract class Pagamento {
 	@Id
 	private Integer id;
-	private EstadoPagamento estado;
+	private Integer estado;
 	@OneToOne
 	@JoinColumn(name="PEDIDO_ID")
 	@MapsId
@@ -28,7 +28,7 @@ public class Pagamento {
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado;
+		this.estado = estado.getCodigo();
 		this.pedido = pedido;
 	}
 
@@ -40,12 +40,12 @@ public class Pagamento {
 		this.id = id;
 	}
 
-	public EstadoPagamento getEstado() {
-		return estado;
+	public EstadoPagamento getEstado() throws Exception {
+		return EstadoPagamento.toEnum(estado);
 	}
 
 	public void setEstado(EstadoPagamento estado) {
-		this.estado = estado;
+		this.estado = estado.getCodigo();
 	}
 
 	public Pedido getPedido() {

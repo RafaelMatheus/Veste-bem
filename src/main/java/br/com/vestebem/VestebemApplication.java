@@ -1,5 +1,6 @@
 package br.com.vestebem;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import br.com.vestebem.model.Cidade;
 import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.Endereco;
 import br.com.vestebem.model.Estado;
+import br.com.vestebem.model.Pagamento;
+import br.com.vestebem.model.PagamentoBoleto;
+import br.com.vestebem.model.PagamentoCartao;
+import br.com.vestebem.model.Pedido;
 import br.com.vestebem.model.Produto;
+import br.com.vestebem.model.enums.EstadoPagamento;
 import br.com.vestebem.model.enums.TipoCliente;
 import br.com.vestebem.repositories.CategoriaRepository;
 import br.com.vestebem.repositories.CidadeRepository;
 import br.com.vestebem.repositories.ClienteRepository;
 import br.com.vestebem.repositories.EnderecoRepository;
 import br.com.vestebem.repositories.EstadoRepository;
+import br.com.vestebem.repositories.PagamentoRepository;
+import br.com.vestebem.repositories.PedidoRepository;
 import br.com.vestebem.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -35,6 +43,11 @@ public class VestebemApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(VestebemApplication.class, args);
@@ -79,6 +92,7 @@ public class VestebemApplication implements CommandLineRunner {
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
 		
+		
 		Cliente cli1 = new Cliente(null, "Rafael", "rafael@hotmail.com.br","111.111.111-11", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("2222-2222", "3333-3333"));
 		
@@ -93,6 +107,23 @@ public class VestebemApplication implements CommandLineRunner {
 		
 		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2,e3));
+		
+		
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:30"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:30"), cli1, e2);
+		
+		PagamentoCartao pagto1 = new PagamentoCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		PagamentoBoleto pagto2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
+		
+		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
+		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		
 	}
 }

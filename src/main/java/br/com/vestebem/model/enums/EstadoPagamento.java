@@ -1,10 +1,10 @@
 package br.com.vestebem.model.enums;
 
 public enum EstadoPagamento {
-	PENDENTE(1,"PENDENTE"),
-	QUITADO(2,"QUITADO"),
-	CANCELADO(3,"CANCELADO");
-	
+	PENDENTE(1, "PENDENTE"), 
+	QUITADO(2, "QUITADO"), 
+	CANCELADO(3, "CANCELADO");
+
 	private int codigo;
 	private String descricao;
 
@@ -17,8 +17,16 @@ public enum EstadoPagamento {
 		return codigo;
 	}
 
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public static EstadoPagamento toEnum(Integer codigo) throws Exception {
