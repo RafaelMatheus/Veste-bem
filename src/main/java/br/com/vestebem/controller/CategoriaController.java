@@ -2,6 +2,7 @@ package br.com.vestebem.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.vestebem.model.Categoria;
+import br.com.vestebem.model.dto.CategoriaDto;
 import br.com.vestebem.service.CategoriaService;
 
 @RestController
@@ -22,9 +24,10 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Categoria>> findAll() {
+	public ResponseEntity<List<CategoriaDto>> findAll() {
 		List<Categoria> categorias = categoriaService.findall();
-		return ResponseEntity.ok().body(categorias);
+		List<CategoriaDto> listDto = categorias.stream().map(obje -> new CategoriaDto(obje)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	
