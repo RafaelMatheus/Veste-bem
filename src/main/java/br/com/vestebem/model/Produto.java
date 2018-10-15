@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Produto {
@@ -27,6 +28,7 @@ public class Produto {
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<Categoria>();
+	@JsonIgnore
 	@OneToMany(mappedBy="id.produto")
 	Set<ItemPedido> itens = new HashSet<ItemPedido>();
 
@@ -40,6 +42,8 @@ public class Produto {
 		this.nome = nome;
 		this.preco = preco;
 	}
+	
+	@JsonIgnore
 	public List<Pedido> getPedidos(){
 		List<Pedido> pedidos = new ArrayList<Pedido>();
 		for(ItemPedido x : itens) {

@@ -3,8 +3,11 @@ package br.com.vestebem.model;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido {
+	@JsonIgnore
 	@EmbeddedId
 	private ItemPedidoPk id = new ItemPedidoPk();
 	private Double desconto;
@@ -55,11 +58,11 @@ public class ItemPedido {
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
-
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
-
+	
 	public Produto getProduto() {
 		return id.getProduto();
 	}

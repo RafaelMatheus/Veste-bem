@@ -4,11 +4,15 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.vestebem.model.enums.EstadoPagamento;
 
 @Entity
 public class PagamentoBoleto extends Pagamento {
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataVencimento;
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataPagamento;
 
 	public PagamentoBoleto() {

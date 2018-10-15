@@ -14,17 +14,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
-	@DateTimeFormat
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
 	private Date instante;
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "CLIENTE_ID")
 	private Cliente cliente;
