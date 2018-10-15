@@ -2,11 +2,8 @@ package br.com.vestebem.controller;
 
 import java.net.URI;
 
-import javax.servlet.Servlet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +21,7 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> findById(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
 		Categoria categoria = categoriaService.findById(id);
 		return ResponseEntity.ok().body(categoria);
 	}
@@ -32,12 +29,17 @@ public class CategoriaController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria categoria) {
 		categoria = categoriaService.insert(categoria);
-		URI uri = ServletUriComponentsBuilder.
-				fromCurrentRequest().
-				path("/{id}").buildAndExpand(categoria.getId()).
-				toUri();
-		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId())
+				.toUri();
+
 		return ResponseEntity.created(uri).build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id) {
+		categoria.setId(id);
+		categoria = categoriaService.update(categoria);
+		return ResponseEntity.noContent().build();
 	}
 
 }
