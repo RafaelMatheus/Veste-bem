@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.vestebem.model.Categoria;
+import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.dto.CategoriaDto;
 import br.com.vestebem.repositories.CategoriaRepository;
 import br.com.vestebem.service.exceptions.ObjectNotFoundException;
@@ -33,8 +34,9 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria categoria) {
-		this.findById(categoria.getId());
-		return categoriaRepository.save(categoria);
+		Categoria categoriaBd = this.findById(categoria.getId());
+		updateData(categoriaBd, categoria);
+		return categoriaRepository.save(categoriaBd);
 	}
 	
 	public void delete(Integer id) {
@@ -51,6 +53,10 @@ public class CategoriaService {
 	}
 	public Categoria fromDto(CategoriaDto categoriaDto) {
 		return new Categoria(categoriaDto.getId(), categoriaDto.getNome());
+	}
+	
+	private void updateData(Categoria categoriaBd, Categoria categoria) {
+		categoriaBd.setNome(categoria.getNome());
 	}
 
 }
