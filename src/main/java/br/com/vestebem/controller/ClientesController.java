@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.dto.ClienteDto;
+import br.com.vestebem.model.dto.ClienteNewDto;
 import br.com.vestebem.service.ClienteService;
 
 @RestController
@@ -39,7 +40,7 @@ public class ClientesController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDto clienteDto){
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDto clienteDto) throws Exception{
 		Cliente cliente = clienteService.fromDto(clienteDto);
 		cliente = clienteService.insert(cliente);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId())
@@ -60,4 +61,5 @@ public class ClientesController {
 		clienteService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
 }

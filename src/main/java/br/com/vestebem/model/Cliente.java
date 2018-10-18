@@ -30,6 +30,7 @@ public class Cliente {
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
+	
 	private Set<String> telefones = new HashSet<>();
 	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
