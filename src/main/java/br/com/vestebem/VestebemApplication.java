@@ -14,7 +14,6 @@ import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.Endereco;
 import br.com.vestebem.model.Estado;
 import br.com.vestebem.model.ItemPedido;
-import br.com.vestebem.model.Pagamento;
 import br.com.vestebem.model.PagamentoBoleto;
 import br.com.vestebem.model.PagamentoCartao;
 import br.com.vestebem.model.Pedido;

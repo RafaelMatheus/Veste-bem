@@ -58,7 +58,7 @@ public class ClienteService {
 		} catch (DataIntegrityViolationException e) {
 			throw new br.com.vestebem.service.exceptions.
 					DataIntegrityViolationException("Não é possivel excluir "
-					+ "clientes com produtos"
+					+ "clientes com pedidos"
 					+ " associados");
 		}
 		

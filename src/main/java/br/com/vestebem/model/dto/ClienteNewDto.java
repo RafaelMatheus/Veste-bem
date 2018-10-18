@@ -1,15 +1,32 @@
 package br.com.vestebem.model.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import br.com.vestebem.service.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDto {
+	@NotEmpty(message="Preenchimento do campo nome é obrigatório")
+	@Length(min=5, message="O tamanho deve ter pelo menos 5 caracteres")
 	private String nome;
+	@NotEmpty(message="É obrigatório o preenchimento do email")
+	@Email(message="Email inválido")
 	private String email;
+	@NotEmpty(message="É obrigatório o preenchimento do cpfOuCnpj")
 	private String cpfOuCnpj;
 	private Integer tipo;
+	@NotEmpty(message="É obrigatório o preenchimento do logradouro")
 	private String logradouro;
+	@NotEmpty(message="É obrigatório o preenchimento do numero")
 	private String numero;
 	private String complemento;
 	private String bairro;
+	@NotEmpty(message="É obrigatório o preenchimento do cep")
 	private String cep;
+	@NotEmpty(message="É obrigatório o preenchimento do telefone1")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;

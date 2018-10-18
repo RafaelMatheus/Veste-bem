@@ -6,7 +6,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import br.com.vestebem.model.Cliente;
+import br.com.vestebem.service.validation.ClienteInsert;
 
+@ClienteInsert
 public class ClienteDto {
 	private Integer id;
 	@NotEmpty(message="Preenchimento do campo nome é obrigatório")

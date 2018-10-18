@@ -8,7 +8,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.vestebem.model.Categoria;
-import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.dto.CategoriaDto;
 import br.com.vestebem.repositories.CategoriaRepository;
 import br.com.vestebem.service.exceptions.ObjectNotFoundException;
