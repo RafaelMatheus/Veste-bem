@@ -55,14 +55,19 @@ public class ItemPedido {
 		return preco;
 	}
 
+	public double getSubTotal() {
+		return (preco - desconto) * quantidade;
+	}
+
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
+
 	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
-	
+
 	public Produto getProduto() {
 		return id.getProduto();
 	}
@@ -91,5 +96,5 @@ public class ItemPedido {
 			return false;
 		return true;
 	}
-	
+
 }

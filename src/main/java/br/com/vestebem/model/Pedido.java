@@ -21,7 +21,7 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
-	@JsonFormat(pattern="dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
@@ -31,7 +31,7 @@ public class Pedido {
 	@ManyToOne
 	@JoinColumn(name = "ENDERECO_ENTREGA_ID")
 	private Endereco enderecoEntrega;
-	@OneToMany(mappedBy="id.pedido")
+	@OneToMany(mappedBy = "id.pedido")
 	Set<ItemPedido> itens = new HashSet<ItemPedido>();
 
 	public Pedido() {
@@ -44,6 +44,14 @@ public class Pedido {
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoEntrega = enderecoEntrega;
+	}
+
+	public double getTotalPedido() {
+		double soma = 0.0;
+		for (ItemPedido itemPedido : itens) {
+			soma += itemPedido.getSubTotal();
+		}
+		return soma;
 	}
 
 	public Integer getId() {

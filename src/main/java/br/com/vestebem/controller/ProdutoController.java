@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vestebem.controller.utils.Url;
 import br.com.vestebem.model.Produto;
-import br.com.vestebem.model.dto.CategoriaDto;
 import br.com.vestebem.model.dto.ProdutoDto;
 import br.com.vestebem.service.ProdutoService;
 
