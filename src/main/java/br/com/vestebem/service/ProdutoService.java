@@ -22,16 +22,18 @@ public class ProdutoService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
-
 	public List<Produto> findall() {
 		return produtoRepository.findAll();
 	}
+
 	public Produto findById(Integer id) {
 		Optional<Produto> produtos = produtoRepository.findById(id);
 		return produtos.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto com o " + "id " + id + " não encontrado, tipo: " + Produto.class.getName()));
 	}
-	public Page<Produto> search(String nome, List<Integer> id, Integer page, Integer linesPerPage, String orderBy, String direction){
+
+	public Page<Produto> search(String nome, List<Integer> id, Integer page, Integer linesPerPage, String orderBy,
+			String direction) {
 		@SuppressWarnings("deprecation")
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		List<Categoria> categorias = categoriaRepository.findAllById(id);
