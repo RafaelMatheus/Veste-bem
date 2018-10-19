@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,21 +26,21 @@ import br.com.vestebem.service.CategoriaService;
 public class CategoriaController {
 	@Autowired
 	CategoriaService categoriaService;
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDto>> findAll() {
 		List<Categoria> categorias = categoriaService.findall();
-		List<CategoriaDto> listDto = categorias.stream().map(obje -> new CategoriaDto(obje)).collect(Collectors.toList());
+		List<CategoriaDto> listDto = categorias.stream().map(obje -> new CategoriaDto(obje))
+				.collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
-	
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
 		Categoria categoria = categoriaService.findById(id);
 		return ResponseEntity.ok().body(categoria);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDto categoriaDto) {
 		Categoria categoria = categoriaService.fromDto(categoriaDto);
@@ -60,6 +62,16 @@ public class CategoriaController {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		categoriaService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDto>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		Page<Categoria> list = categoriaService.findPage(page, linesPerPage, orderBy, direction);
+		Page<CategoriaDto> listDto = list.map(obj -> new CategoriaDto(obj));
+		return ResponseEntity.ok().body(listDto);
 	}
 
 }
