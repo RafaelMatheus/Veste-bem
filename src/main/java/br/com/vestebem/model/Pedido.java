@@ -1,7 +1,10 @@
 package br.com.vestebem.model;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -126,5 +129,30 @@ public class Pedido {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd, MMMM, YYYY HH:mm");
+		
+		try {
+			builder.append("Pedido numero: " +getId());
+			builder.append("\n Data e hora: " +dateFormat.format(getInstante()));
+			builder.append("\n Cliente: "+getCliente().getNome());
+			builder.append("\n Cpf: "+getCliente().getCpfOuCnpj());
+			builder.append("\n Situação do pagamento: "+getPagamento().getEstado().getDescricao());
+			builder.append("\n\n\t Detalhes do pedido: ");
+			builder.append("\n");
+			for (ItemPedido itemPedido : itens) {
+				builder.append(itemPedido.toString());
+			}
+			builder.append("\n\n Valor total: "+format.format(getTotalPedido()));
+		}catch (Exception e) {
+			
+		}
+		return builder.toString();
+	}
+	
 
 }

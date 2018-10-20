@@ -1,5 +1,8 @@
 package br.com.vestebem.model;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -30,6 +33,7 @@ public class ItemPedido {
 	public ItemPedidoPk getId() {
 		return id;
 	}
+
 
 	public void setId(ItemPedidoPk id) {
 		this.id = id;
@@ -104,5 +108,16 @@ public class ItemPedido {
 			return false;
 		return true;
 	}
-
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		
+		builder.append("\nProduto: "+getProduto().getNome());
+		builder.append("\n \tQuantidde: "+getQuantidade());
+		builder.append("\n \tPreço unitário: "+  format.format(getPreco()));
+		builder.append("\n \tSubTotal: "+ format.format(getSubTotal()));
+		return builder.toString();
+	}
 }

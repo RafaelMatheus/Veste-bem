@@ -11,9 +11,11 @@ import br.com.vestebem.model.ItemPedido;
 import br.com.vestebem.model.PagamentoBoleto;
 import br.com.vestebem.model.Pedido;
 import br.com.vestebem.model.enums.EstadoPagamento;
+import br.com.vestebem.repositories.ClienteRepository;
 import br.com.vestebem.repositories.ItemPedidoRepository;
 import br.com.vestebem.repositories.PagamentoRepository;
 import br.com.vestebem.repositories.PedidoRepository;
+import br.com.vestebem.repositories.ProdutoRepository;
 import br.com.vestebem.service.exceptions.ObjectNotFoundException;
 
 @Service
@@ -32,6 +34,9 @@ public class PedidoService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private ClienteService clienteService;
 
 	public List<Pedido> findall() {
 		return pedidoRepository.findAll();
@@ -48,6 +53,7 @@ public class PedidoService {
 		pedido.setInstante(new Date());
 		pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		pedido.getPagamento().setPedido(pedido);
+		pedido.setCliente(clienteService.findById(pedido.getCliente().getId()));
 		if (pedido.getPagamento() instanceof PagamentoBoleto) {
 			PagamentoBoleto pagamento = (PagamentoBoleto) pedido.getPagamento();
 			boletoService.preencherPagamentoComBoleto(pagamento, pedido.getInstante());
@@ -58,11 +64,13 @@ public class PedidoService {
 
 		for (ItemPedido itemPedido : pedido.getItens()) {
 			itemPedido.setDesconto(0.0);
-			itemPedido.setPreco(produtoService.findById(itemPedido.getProduto().getId()).getPreco());
+			itemPedido.setProduto(produtoService.findById(itemPedido.getProduto().getId()));
+			itemPedido.setPreco(itemPedido.getProduto().getPreco());
 			itemPedido.setPedido(pedido);
 			
 		}
 		itemPedidoRepository.saveAll(pedido.getItens());
+		System.out.println(pedido);
 		return pedido;
 	}
 
