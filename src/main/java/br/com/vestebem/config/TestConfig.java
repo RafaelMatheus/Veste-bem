@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.vestebem.service.DbService;
-import br.com.vestebem.service.MockEmailService;
+import br.com.vestebem.service.SmtpEmailService;
 
 @Configuration
 @Profile("test")
@@ -22,7 +22,7 @@ public class TestConfig {
 		return true;
 	}
 	@Bean
-	public MockEmailService emailService() {
-		return new MockEmailService();
+	public SmtpEmailService emailService() {
+		return new SmtpEmailService();
 	}
 }
