@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.vestebem.service.DbService;
+import br.com.vestebem.service.EmailService;
+import br.com.vestebem.service.MockEmailService;
+import br.com.vestebem.service.SmtpEmailService;
 
 @Configuration
 @Profile("dev")
@@ -21,11 +24,15 @@ public class DevConfig {
 
 	@Bean
 	public boolean instantateDataBase() throws ParseException {
-		System.out.println("strategy++++++++++++++++++"+strategy);
 		if("create".equals(strategy)) {
 			dbService.instantiateTestDataBase();
 			return true;
 		}
 		return false;
+	}
+	
+	@Bean
+	public SmtpEmailService emailService() {
+		return new SmtpEmailService();
 	}
 }
