@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.vestebem.model.Cidade;
@@ -23,6 +24,8 @@ public class ClienteService {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Cliente findById(Integer id) {
 		Optional<Cliente> clientes = clienteRepository.findById(id);
@@ -64,7 +67,7 @@ public class ClienteService {
 		
 	}
 	public Cliente fromDto(ClienteDto clienteDto){
-		return new Cliente(clienteDto.getId(), clienteDto.getNome(), clienteDto.getEmail(), null, null);
+		return new Cliente(clienteDto.getId(), clienteDto.getNome(), clienteDto.getEmail(), null, null, null);
 	}
 	public Cliente fromDto(ClienteNewDto clienteDto) throws Exception{
 		
@@ -72,7 +75,8 @@ public class ClienteService {
 				clienteDto.getNome(), 
 				clienteDto.getEmail(), 
 				clienteDto.getCpfOuCnpj(), 
-				TipoCliente.toEnum(clienteDto.getTipo()));
+				TipoCliente.toEnum(clienteDto.getTipo()),
+				bCryptPasswordEncoder.encode(clienteDto.getSenha()));
 		
 		Cidade cidade = new Cidade(clienteDto.getCidadeId(), null,null);
 		

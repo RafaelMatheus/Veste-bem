@@ -30,7 +30,16 @@ public class ClienteNewDto {
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
+	@NotEmpty(message="É obrigatório o preenchimento da senha")
+	private String senha;
 	private Integer cidadeId;
+	
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 	public ClienteNewDto() {
 		
 	}
