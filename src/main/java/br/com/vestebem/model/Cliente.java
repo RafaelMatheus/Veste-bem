@@ -32,7 +32,6 @@ public class Cliente {
 	@Column(unique=true)
 	private String email;
 	private String cpfOuCnpj;
-	private String imagemUrll;
 	private Integer tipo;
 	@JsonIgnore
 	private String senha;
@@ -63,15 +62,6 @@ public class Cliente {
 		setPerfil(Perfil.CLIENTE);
 	}
 	
-	
-	public String getImagemUrll() {
-		return imagemUrll;
-	}
-
-	public void setImagemUrll(String imagemUrll) {
-		this.imagemUrll = imagemUrll;
-	}
-
 	public String getSenha() {
 		return senha;
 	}

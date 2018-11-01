@@ -1,10 +1,12 @@
 package br.com.vestebem.service;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,15 @@ public class ClienteService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	private S3Service s3Service;
+	@Autowired
+	private ImageService imageService;
+	
+	@Value("${img.prefix.client.profile}")
+	private String prefix;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
+	
 	public Cliente findById(Integer id) {
 		UserSS user = new UserService().authenticated();
 		if(user == null || !user.hasRole(Perfil.ADMIN) && id.equals(user.getId())) {
@@ -118,18 +129,16 @@ public class ClienteService {
 	
 	public URI uploadProfilePicture(MultipartFile file) {
 		UserSS user = UserService.authenticated();
-		
 		if(user == null)
 			throw new AuthorizationException("Acesso negado");
 		
-		URI uri = s3Service.uploadFile(file);
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(file);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+		String fileName = prefix + user.getId() + ".jpg";
 		
-		Optional<Cliente> cli = clienteRepository.findById(user.getId());
-		cli.orElse(null).setImagemUrll(uri.toString());
-		clienteRepository.save(cli.orElse(null));
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 		
-		return uri;
-	
 		
 	}
 }
