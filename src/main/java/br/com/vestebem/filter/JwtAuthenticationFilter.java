@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,42 +23,43 @@ import br.com.vestebem.security.UserSS;
 import br.com.vestebem.security.utils.JwtUtils;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	@Autowired
 	private AuthenticationManager authenticationManager;
-	@Autowired
-	private JwtUtils ultils;
+    
+    private JwtUtils jwtUtil;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtils jwtUtil) {
+    	setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+    }
 	
-	 
-	public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtils ultils) {
-		 setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
-		this.authenticationManager = authenticationManager;
-		this.ultils = ultils;
-	}
-
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest req,
+                                                HttpServletResponse res) throws AuthenticationException {
+
 		try {
-			CredenciaisDto creds = new ObjectMapper().readValue(request.getInputStream(), CredenciaisDto.class);
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getUserName(), creds.getSenha(), new ArrayList<>());
-			Authentication auth = authenticationManager.authenticate(authToken);
-			return auth;
-			
-		} catch (IOException e) {
-			throw new RuntimeException();
+			CredenciaisDto creds = new ObjectMapper()
+	                .readValue(req.getInputStream(), CredenciaisDto.class);
+	
+	        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getUserName(), creds.getSenha(), new ArrayList<>());
+	        
+	        Authentication auth = authenticationManager.authenticate(authToken);
+	        return auth;
 		}
-		
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
-
+	
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
-
-		String userName = ((UserSS)authResult.getPrincipal()).getUsername();
-		String token = ultils.generateToken(userName);
-		response.addHeader("Authorization", "Bearer"+token);
-		
-		super.successfulAuthentication(request, response, chain, authResult);
+    protected void successfulAuthentication(HttpServletRequest req,
+                                            HttpServletResponse res,
+                                            FilterChain chain,
+                                            Authentication auth) throws IOException, ServletException {
+	
+		String username = ((UserSS) auth.getPrincipal()).getUsername();
+        String token = jwtUtil.generateToken(username);
+        res.addHeader("Authorization", "Bearer " + token);
 	}
 	
 	private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
@@ -78,7 +78,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 + "\"status\": 401, "
                 + "\"error\": \"Não autorizado\", "
                 + "\"message\": \"Email ou senha inválidos\", "
-                + "\"path\": \"/login\"}";
+                + "\"path\": \"/login\""
+                + "}";
         }
 	}
 
