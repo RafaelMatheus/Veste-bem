@@ -51,7 +51,7 @@ public class CategoriaController {
 		Categoria categoria = categoriaService.findById(id);
 		return ResponseEntity.ok().body(categoria);
 	}
-
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDto categoriaDto) {
@@ -61,6 +61,7 @@ public class CategoriaController {
 				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDto categoriaDto, @PathVariable Integer id) {

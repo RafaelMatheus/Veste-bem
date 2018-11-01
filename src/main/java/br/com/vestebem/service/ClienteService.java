@@ -13,9 +13,12 @@ import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.Endereco;
 import br.com.vestebem.model.dto.ClienteDto;
 import br.com.vestebem.model.dto.ClienteNewDto;
+import br.com.vestebem.model.enums.Perfil;
 import br.com.vestebem.model.enums.TipoCliente;
 import br.com.vestebem.repositories.ClienteRepository;
 import br.com.vestebem.repositories.EnderecoRepository;
+import br.com.vestebem.security.UserSS;
+import br.com.vestebem.service.exceptions.AuthorizationException;
 import br.com.vestebem.service.exceptions.ObjectNotFoundException;
 
 @Service
@@ -28,6 +31,11 @@ public class ClienteService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public Cliente findById(Integer id) {
+		UserSS user = new UserService().authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> clientes = clienteRepository.findById(id);
 		return clientes.orElseThrow(
 				()->new ObjectNotFoundException("Objeto com o "
