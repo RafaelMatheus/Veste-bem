@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -18,8 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.CollectionType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,6 +32,7 @@ public class Cliente {
 	@Column(unique=true)
 	private String email;
 	private String cpfOuCnpj;
+	private String imagemUrll;
 	private Integer tipo;
 	@JsonIgnore
 	private String senha;
@@ -65,6 +63,15 @@ public class Cliente {
 		setPerfil(Perfil.CLIENTE);
 	}
 	
+	
+	public String getImagemUrll() {
+		return imagemUrll;
+	}
+
+	public void setImagemUrll(String imagemUrll) {
+		this.imagemUrll = imagemUrll;
+	}
+
 	public String getSenha() {
 		return senha;
 	}

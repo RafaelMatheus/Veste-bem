@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -99,6 +100,19 @@ public class ResourceExceptionHandler {
 		StandardError standardError = new StandardError(
 				HttpStatus.BAD_REQUEST.value(),
 				amazonClientException.getMessage(), 
+				System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+		
+	}
+	
+	@ExceptionHandler(AmazonS3Exception.class)
+	public ResponseEntity<StandardError> amazonClientException(AmazonS3Exception amazonS3Exception, 
+														HttpServletRequest httpServletRequest){
+		
+		StandardError standardError = new StandardError(
+				HttpStatus.BAD_REQUEST.value(),
+				amazonS3Exception.getMessage(), 
 				System.currentTimeMillis());
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
