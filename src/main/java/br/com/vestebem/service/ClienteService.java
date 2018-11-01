@@ -1,5 +1,6 @@
 package br.com.vestebem.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.vestebem.model.Cidade;
 import br.com.vestebem.model.Cliente;
@@ -29,7 +31,8 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+	@Autowired
+	private S3Service s3Service;
 	public Cliente findById(Integer id) {
 		UserSS user = new UserService().authenticated();
 		if(user == null || !user.hasRole(Perfil.ADMIN) && id.equals(user.getId())) {
@@ -111,5 +114,9 @@ public class ClienteService {
 	private void updateData(Cliente clienteBd, Cliente cliente) {
 		clienteBd.setNome(cliente.getNome());
 		clienteBd.setEmail(cliente.getEmail());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile file) {
+		return s3Service.uploadFile(file);
 	}
 }
