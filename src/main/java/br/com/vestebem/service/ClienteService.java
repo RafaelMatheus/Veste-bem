@@ -61,6 +61,19 @@ public class ClienteService {
 	public List<Cliente> findall() {
 		return clienteRepository.findAll();
 	}
+	
+	public Cliente findByEmail(String email) {
+		UserSS user = new UserService().authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		Cliente c = clienteRepository.findByEmail(email);
+		
+		if(c == null) {
+			throw new ObjectNotFoundException("Cliente com id: "+user.getId()+" ,Tipo: "+ Cliente.class.getName());
+		}
+		return c;
+	}
 
 
 	public Cliente insert(Cliente cliente) {
@@ -139,6 +152,7 @@ public class ClienteService {
 		
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 		
-		
 	}
+	
+	
 }
