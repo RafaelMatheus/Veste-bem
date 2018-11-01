@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.vestebem.filter.JwtAuthenticationFilter;
+import br.com.vestebem.filter.JwtAuthorizationFilter;
 import br.com.vestebem.security.utils.JwtUtils;
 
 @Configuration
@@ -55,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		anyRequest().
 		authenticated();
 		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtils));
+		http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtils, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 		
