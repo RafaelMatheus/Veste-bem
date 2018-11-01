@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		permitAll().
 		anyRequest().
 		authenticated();
-		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtils)).
+		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtils));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
 		
@@ -77,5 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		 return new BCryptPasswordEncoder();
 	 }
+	 
+	 
 
 }
