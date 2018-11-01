@@ -19,6 +19,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
+import br.com.vestebem.service.exceptions.FileException;
+
 @Service
 public class S3Service {
 	private Logger LOG = LoggerFactory.getLogger(S3Service.class);
@@ -35,7 +37,7 @@ public class S3Service {
 			String contentType = multipartFile.getContentType();
 			return uploadFile(is, fileName, contentType);
 		} catch (IOException e) {
-			throw new RuntimeException("Erro de IO: " + e.getMessage());
+			throw new FileException("Erro de IO: " + e.getMessage());
 		}
 
 	}
@@ -49,7 +51,7 @@ public class S3Service {
 			LOG.info("Upload finalizado");
 			return s3Client.getUrl(bucketName, fileName).toURI();
 		} catch (URISyntaxException e) {
-			throw new RuntimeException("Erro de IO: " + e.getMessage());
+			throw new FileException("Erro de IO: " + e.getMessage());
 		}
 	}
 }
