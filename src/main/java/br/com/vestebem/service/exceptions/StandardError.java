@@ -1,39 +1,59 @@
 package br.com.vestebem.service.exceptions;
 
 public class StandardError {
-	private Integer statusHttp;
-	private String mensagem;
-	private long timeStamp;
+	private long timestamp;
+	private Integer status;
+	private String error;
+	private String message;
+	private String path;
 
-	public StandardError(Integer statusHttp, String mensagem, long timeStamp) {
+	public StandardError(long timestamp, Integer status, String error, String message, String path) {
 		super();
-		this.statusHttp = statusHttp;
-		this.mensagem = mensagem;
-		this.timeStamp = timeStamp;
+		this.timestamp = timestamp;
+		this.status = status;
+		this.error = error;
+		this.message = message;
+		this.path = path;
 	}
 
-	public Integer getStatusHttp() {
-		return statusHttp;
+	public long getTimestamp() {
+		return timestamp;
 	}
 
-	public void setStatusHttp(Integer statusHttp) {
-		this.statusHttp = statusHttp;
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
 	}
 
-	public String getMensagem() {
-		return mensagem;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
-	public long getTimeStamp() {
-		return timeStamp;
+	public String getError() {
+		return error;
 	}
 
-	public void setTimeStamp(long timeStamp) {
-		this.timeStamp = timeStamp;
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }
