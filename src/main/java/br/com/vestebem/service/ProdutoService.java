@@ -39,4 +39,12 @@ public class ProdutoService {
 		List<Categoria> categorias = categoriaRepository.findAllById(id);
 		return produtoRepository.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);
 	}
+	
+
+	public Page<Produto> findByPromocao(Double max, Double min, Integer page, Integer linesPerPage, String orderBy,
+			String direction) {
+		@SuppressWarnings("deprecation")
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return produtoRepository.findProdutoPromocao(max, min,  pageRequest);
+	}
 }

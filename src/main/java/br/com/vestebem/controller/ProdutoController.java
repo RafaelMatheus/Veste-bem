@@ -41,4 +41,17 @@ public class ProdutoController {
 		Page<ProdutoDto> listDto = list.map(obj -> new ProdutoDto(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
+	
+	@RequestMapping(value="/promocao", method = RequestMethod.GET)
+	public ResponseEntity<Page<ProdutoDto>> findProdutoProocao(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "max", defaultValue = "100") Double max,
+			@RequestParam(value = "min", defaultValue = "0") Double min,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		Page<Produto> list = produtoService.findByPromocao(max, min, page, linesPerPage, orderBy, direction);
+		Page<ProdutoDto> listDto = list.map(obj -> new ProdutoDto(obj));
+		return ResponseEntity.ok().body(listDto);
+	}
 }

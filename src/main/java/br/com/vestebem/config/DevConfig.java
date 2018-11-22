@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import br.com.vestebem.service.DbService;
-import br.com.vestebem.service.EmailService;
-import br.com.vestebem.service.MockEmailService;
 import br.com.vestebem.service.SmtpEmailService;
 
 @Configuration
