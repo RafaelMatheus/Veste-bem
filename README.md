@@ -1,11 +1,18 @@
-# E-COMMERCE
-<h3>Repositório destinado ao projeto da disciplina de java web.</h3>
+# API RESTFUL de e-commerce
+### Tecnologias:
+* MySQL
+* Java
+* Spring Boot
+* Spring Data Jpa
+* Spring Security
 
-<ul>
-  <li>Rafael Matheus Pereira De Castro, 1610014657</li>
-  <li>Alvaro Philipe Andrade Dos Santos, 1610015475</li>
-  <li>Isis Angelis Da Silva, 1720020519</li>
-  <li>Jobson Ribeiro Freitas, 1510007261</li>
-  <li>Brian Lucas Chumacero Vanderlei, 1610013318</li>
-  <li>Tobias Maurilio Ferraz De Oliveira, 1610013632 </li>
-</ul>
+### Para executar a API:
+
+1. Baixe todas depedência do arquivo pom.xml
+2. Configure o arquivo **application.properties** com as configurações do seu banco de dados.
+3. Execute o sistema .
+
+### Endpoints REST:
+
+
+
