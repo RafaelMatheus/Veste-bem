@@ -5,7 +5,7 @@
 </br>
 
 > Este projeto é uma API que implementa </br>
-> as bos práticas de arquitetura REST proposto por: [Roy Fielding].</br>
+> as bos práticas de arquitetura REST proposto por: [Roy Fielding]. </br>
 > o frontend que foi escrito em Ionic está localizado neste [repositório](https://github.com/RafaelMatheus/veste-bem-frontend.git)</br>
 </br>
 
