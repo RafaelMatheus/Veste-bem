@@ -2,6 +2,10 @@ package br.com.vestebem.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -11,10 +15,24 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@EnableSwagger2
 @Configuration
-public class SwaggerConfig {
+@EnableSwagger2
+@EnableWebMvc
+public class SwaggerConfig implements WebMvcConfigurer{
  
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+	    registry.addRedirectViewController("swagger-resources/configuration/ui", "swagger-resources/configuration/ui");
+	    registry.addRedirectViewController("swagger-resources/configuration/security", "swagger-resources/configuration/security");
+	    registry.addRedirectViewController("swagger-resources", "/swagger-resources");
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	    registry.addResourceHandler("swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
+	    registry.addResourceHandler("webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+	}
+	
 	@Bean
 	public Docket detalheApi() {
  
@@ -34,6 +52,7 @@ public class SwaggerConfig {
  
 		ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
  
+		
 		apiInfoBuilder.title("Api- Ecommerce");
 		apiInfoBuilder.description("Api para realização de configurações basicas dentro de um E-commerce");
 		apiInfoBuilder.version("1.0");
