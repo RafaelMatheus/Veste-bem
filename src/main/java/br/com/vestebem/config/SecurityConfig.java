@@ -35,7 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtUtils jwtUtils;
 	
 	private static final String[] PUBLIC_MATCHERS = {
-			"/h2-console/**"
+			"/h2-console/**",
+			"/swagger-ui.html/**",
+			"/swagger-resource/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
@@ -60,10 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().
 		antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll().
 		antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll().
-		antMatchers(PUBLIC_MATCHERS).
-		permitAll().
-		anyRequest().
-		authenticated();
+		antMatchers(PUBLIC_MATCHERS).permitAll().
+		anyRequest().authenticated();
 		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtils));
 		http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtils, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

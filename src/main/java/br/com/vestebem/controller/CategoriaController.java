@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +22,30 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.vestebem.model.Categoria;
 import br.com.vestebem.model.dto.CategoriaDto;
 import br.com.vestebem.service.CategoriaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
+@Api(value="Greeting")
+@CrossOrigin(origins  = "http://localhost:8080")
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaController {
 	@Autowired
 	CategoriaService categoriaService;
 
+	@ApiOperation(
+			value="Cadastrar uma nova pessoa", 
+			response=CategoriaDto.class, 
+			notes="Essa operação salva um novo registro com as informações de pessoa.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna um ResponseModel com uma mensagem de sucesso"
+					)
+ 
+	})
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDto>> findAll() {
 		List<Categoria> categorias = categoriaService.findall();
