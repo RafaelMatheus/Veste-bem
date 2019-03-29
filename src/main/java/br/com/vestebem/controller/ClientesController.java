@@ -61,7 +61,7 @@ public class ClientesController {
 			
  
 	})
-	@RequestMapping(value="/{id}",method=RequestMethod.GET, consumes="json/application", produces="json/application")
+	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public ResponseEntity<Cliente> findById(@PathVariable Integer id) {
 		 Cliente cliente = clienteService.findById(id);
 		 return ResponseEntity.ok().body(cliente);
@@ -94,7 +94,7 @@ public class ClientesController {
 			
  
 	})
-	@RequestMapping(value="/email",method=RequestMethod.GET, consumes="json/application", produces="json/application")
+	@RequestMapping(value="/email",method=RequestMethod.GET)
 	public ResponseEntity<Cliente> findByEmail(@RequestParam(value="value") String email) {
 		 Cliente cliente = clienteService.findByEmail(email);
 		 return ResponseEntity.ok().body(cliente);
@@ -128,7 +128,7 @@ public class ClientesController {
  
 	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.GET, consumes="json/application", produces="json/application")
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ClienteDto>> findAll() {
 		List<Cliente> clientes = clienteService.findall();
 		List<ClienteDto> listDto = clientes.stream().map(obje -> new ClienteDto(obje)).collect(Collectors.toList());
@@ -164,7 +164,7 @@ public class ClientesController {
  
 	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.POST, consumes="json/application", produces="json/application")
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDto clienteDto) throws Exception{
 		Cliente cliente = clienteService.fromDto(clienteDto);
 		cliente = clienteService.insert(cliente);
@@ -202,7 +202,7 @@ public class ClientesController {
  
 	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes="json/application", produces="json/application")
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
 		Cliente cliente = clienteService.fromDto(clienteDto);
 		cliente.setId(id);
@@ -238,7 +238,7 @@ public class ClientesController {
  
 	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes="json/application", produces="json/application")
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		clienteService.delete(id);
 		return ResponseEntity.noContent().build();
@@ -271,7 +271,7 @@ public class ClientesController {
 			
  
 	})
-	@RequestMapping(value="/picture", method = RequestMethod.POST, consumes="json/application", produces="json/application")
+	@RequestMapping(value="/picture", method = RequestMethod.POST)
 	public ResponseEntity<Void> insertPicture(@RequestParam(name="file")MultipartFile file){
 		URI uri = clienteService.uploadProfilePicture(file);
 		return ResponseEntity.created(uri).build();

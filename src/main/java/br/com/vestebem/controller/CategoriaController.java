@@ -62,7 +62,7 @@ public class CategoriaController {
 			
  
 	})
-	@RequestMapping(method = RequestMethod.GET, produces="json/application")
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDto>> findAll() {
 		List<Categoria> categorias = categoriaService.findall();
 		List<CategoriaDto> listDto = categorias.stream().map(obje -> new CategoriaDto(obje))
@@ -98,7 +98,7 @@ public class CategoriaController {
 			
  
 	})
-	@RequestMapping(value = "/page", method = RequestMethod.GET, produces="json/application")
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<CategoriaDto>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
@@ -169,7 +169,7 @@ public class CategoriaController {
  
 	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.POST, consumes="json/application", produces="json/application")
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDto categoriaDto) {
 		Categoria categoria = categoriaService.fromDto(categoriaDto);
 		categoria = categoriaService.insert(categoria);
@@ -207,7 +207,7 @@ public class CategoriaController {
  
 	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces="json/application" ,consumes="json/application")
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDto categoriaDto, @PathVariable Integer id) {
 		Categoria categoria = categoriaService.fromDto(categoriaDto);
 		categoria.setId(id);
