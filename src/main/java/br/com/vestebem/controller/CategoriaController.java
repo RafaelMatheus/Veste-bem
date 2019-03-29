@@ -36,17 +36,33 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 
 	@ApiOperation(
-			value="Cadastrar uma nova pessoa", 
+			value="Retorna uma lista de categorias existentes.", 
 			response=CategoriaDto.class, 
-			notes="Essa operação salva um novo registro com as informações de pessoa.")
+			notes="Essa operação não é necessário nenhuma premissa.")
 	@ApiResponses(value= {
 			@ApiResponse(
 					code=200, 
-					message="Retorna um ResponseModel com uma mensagem de sucesso"
+					message="Retorna uma categoriaDto com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
 					)
+			
  
 	})
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, produces="json/application")
 	public ResponseEntity<List<CategoriaDto>> findAll() {
 		List<Categoria> categorias = categoriaService.findall();
 		List<CategoriaDto> listDto = categorias.stream().map(obje -> new CategoriaDto(obje))
@@ -54,7 +70,35 @@ public class CategoriaController {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	
+	@ApiOperation(
+			value="Retorna uma categoria com paginação.", 
+			response=CategoriaDto.class, 
+			notes="Essa operação não é necessario nenhuma premissa.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna um CategoriaDto com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
+	@RequestMapping(value = "/page", method = RequestMethod.GET, produces="json/application")
 	public ResponseEntity<Page<CategoriaDto>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
@@ -63,15 +107,69 @@ public class CategoriaController {
 		Page<CategoriaDto> listDto = list.map(obj -> new CategoriaDto(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
+	
+	@ApiOperation(
+			value="Retorna uma categoria por id.", 
+			response=CategoriaDto.class, 
+			notes="Essa operação não é necessario nenhuma premissa.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna um CategoriaDto com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
 
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
 		Categoria categoria = categoriaService.findById(id);
 		return ResponseEntity.ok().body(categoria);
 	}
 	
+	@ApiOperation(
+			value="cadastrada uma nova categoria.", 
+			response=CategoriaDto.class, 
+			notes="Essa operação tem como premissa o login para o endpoint /login, após isso colocar o token JWT gerado no header.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=101, 
+					message="Retorna um CategoriaDto com o status code created"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, consumes="json/application", produces="json/application")
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDto categoriaDto) {
 		Categoria categoria = categoriaService.fromDto(categoriaDto);
 		categoria = categoriaService.insert(categoria);
@@ -80,8 +178,36 @@ public class CategoriaController {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	
+	@ApiOperation(
+			value="Atualiza uma categoria existente por id.", 
+			response=CategoriaDto.class, 
+			notes="Essa operação tem como premissa o login para o endpoint /login, após isso colocar o token JWT gerado no header.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna um CategoriaModel com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces="json/application" ,consumes="json/application")
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDto categoriaDto, @PathVariable Integer id) {
 		Categoria categoria = categoriaService.fromDto(categoriaDto);
 		categoria.setId(id);
@@ -89,6 +215,33 @@ public class CategoriaController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(
+			value="Deleta uma categoria existente por id.", 
+			response=CategoriaDto.class, 
+			notes="Essa operação tem como premissa o login para o endpoint /login, após isso colocar o token JWT gerado no header.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=204, 
+					message="Retorna um CategoriaModel com o status code nocontent, informando que o conteudo foi deletado com sucesso"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {

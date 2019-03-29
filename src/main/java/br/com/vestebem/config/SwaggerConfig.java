@@ -68,7 +68,7 @@ public class SwaggerConfig implements WebMvcConfigurer{
  
 		return new Contact(
 				"Rafael Castro",
-				"raafael.com.br", 
+				"https://github.com/RafaelMatheus/Veste-bem.git", 
 				"rafaelmatheusdecastro@hotmail.com.br");
 	}
     
