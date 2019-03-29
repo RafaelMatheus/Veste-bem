@@ -77,7 +77,6 @@ public class PedidoService {
 			
 		}
 		
-		emailService.sendOrderConfirmationEmail(pedido);
 		itemPedidoRepository.saveAll(pedido.getItens());
 		return pedido;
 	}
@@ -86,7 +85,6 @@ public class PedidoService {
 		UserSS user = UserService.authenticated();
 		if(user == null) {
 			System.out.println("Entrou aqui");
-			System.out.println(user.getUsername());
 			throw new AuthorizationException("Acesso negado");
 		}
 		
