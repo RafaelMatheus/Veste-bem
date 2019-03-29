@@ -12,22 +12,11 @@ import br.com.vestebem.service.DbService;
 import br.com.vestebem.service.SmtpEmailService;
 
 @Configuration
-@Profile("dev")
+@Profile("prod")
 public class DevConfig {
 	@Autowired
 	private DbService dbService;
 	
-	@Value("$(spring.jpa.hibernate.ddl-auto)")
-	private String strategy;
-
-	@Bean
-	public boolean instantateDataBase() throws ParseException {
-		if("create".equals(strategy)) {
-			dbService.instantiateTestDataBase();
-			return true;
-		}
-		return false;
-	}
 	
 	@Bean
 	public SmtpEmailService emailService() {
