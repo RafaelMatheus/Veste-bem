@@ -12,7 +12,7 @@ import br.com.vestebem.service.DbService;
 import br.com.vestebem.service.SmtpEmailService;
 
 @Configuration
-@Profile("prod")
+@Profile("dev")
 public class DevConfig {
 	@Autowired
 	private DbService dbService;
