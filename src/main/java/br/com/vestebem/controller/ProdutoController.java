@@ -101,7 +101,6 @@ public class ProdutoController {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	
 
 	@ApiOperation(
 			value="Retorna todos produtos na promoção paginado", 
