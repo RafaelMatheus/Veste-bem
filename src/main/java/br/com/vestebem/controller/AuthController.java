@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.vestebem.model.dto.CategoriaDto;
 import br.com.vestebem.model.dto.EmailDto;
 import br.com.vestebem.security.UserSS;
 import br.com.vestebem.security.utils.JwtUtils;
@@ -30,7 +29,6 @@ public class AuthController {
 	
 	@ApiOperation(
 			value="Retorna um novo token pelo header.", 
-			response=CategoriaDto.class, 
 			notes="Essa operação não é necessário nenhuma premissa.")
 	@ApiResponses(value= {
 			@ApiResponse(
@@ -66,7 +64,6 @@ public class AuthController {
 	
 	@ApiOperation(
 			value="Retorna uma nova senha randon para o email do usuário cadastrado na apicação", 
-			response=CategoriaDto.class, 
 			notes="Essa operação não é necessário nenhuma premissa.")
 	@ApiResponses(value= {
 			@ApiResponse(
