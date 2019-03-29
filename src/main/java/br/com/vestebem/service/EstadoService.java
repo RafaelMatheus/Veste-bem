@@ -13,7 +13,7 @@ public class EstadoService {
 	@Autowired
 	private EstadoRepository estadoRepository;
 	
-	public List<Estado>findByEmail(){
+	public List<Estado>findAllOrderByNome(){
 		return estadoRepository.findAllByOrderByNome();
 	}
 }

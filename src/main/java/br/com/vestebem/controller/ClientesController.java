@@ -22,6 +22,9 @@ import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.dto.ClienteDto;
 import br.com.vestebem.model.dto.ClienteNewDto;
 import br.com.vestebem.service.ClienteService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value="/clientes")
@@ -29,28 +32,139 @@ public class ClientesController {
 	@Autowired
 	ClienteService clienteService;
 	
-	@RequestMapping(value="/{id}",method=RequestMethod.GET)
+	
+	@ApiOperation(
+			value="Retorna um clente por id", 
+			response=Cliente.class,
+			consumes="",
+			notes="Essa operação não é necessário nenhuma premissa.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna uma cliente com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
+	@RequestMapping(value="/{id}",method=RequestMethod.GET, consumes="json/application", produces="json/application")
 	public ResponseEntity<Cliente> findById(@PathVariable Integer id) {
 		 Cliente cliente = clienteService.findById(id);
 		 return ResponseEntity.ok().body(cliente);
 	}
 	
-	@RequestMapping(value="/email",method=RequestMethod.GET)
+	@ApiOperation(
+			value="Retorna um clente por email", 
+			response=Cliente.class, 
+			notes="Essa operação não é necessário nenhuma premissa.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna uma lista de clientes com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
+	@RequestMapping(value="/email",method=RequestMethod.GET, consumes="json/application", produces="json/application")
 	public ResponseEntity<Cliente> findByEmail(@RequestParam(value="value") String email) {
 		 Cliente cliente = clienteService.findByEmail(email);
 		 return ResponseEntity.ok().body(cliente);
 	}
 	
+	@ApiOperation(
+			value="Retorna uma lista de cliente", 
+			response=Cliente.class, 
+			notes="Essa operação tem como premissa está logado na aplicação com o token JWT no header da pagina, é necessário acesso de ADM")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna todos clientes cadastrados com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, consumes="json/application", produces="json/application")
 	public ResponseEntity<List<ClienteDto>> findAll() {
 		List<Cliente> clientes = clienteService.findall();
 		List<ClienteDto> listDto = clientes.stream().map(obje -> new ClienteDto(obje)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 	
+
+	@ApiOperation(
+			value="Cadastra um cliente", 
+			response=Cliente.class, 
+			notes="Essa operação tem como premissa está logado na aplicação com o token JWT no header da pagina, é necessário acesso de ADM")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=201, 
+					message="Retorna o cliente cadastrado com o status created"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, consumes="json/application", produces="json/application")
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDto clienteDto) throws Exception{
 		Cliente cliente = clienteService.fromDto(clienteDto);
 		cliente = clienteService.insert(cliente);
@@ -59,8 +173,36 @@ public class ClientesController {
 		return ResponseEntity.created(uri).build();
 	}
 	
+
+	@ApiOperation(
+			value="Atualiza um cliente", 
+			response=Cliente.class, 
+			notes="Essa operação tem como premissa está logado na aplicação com o token JWT no header da pagina, é necessário acesso de ADM")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna o cliente cadastrado com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes="json/application", produces="json/application")
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDto clienteDto, @PathVariable Integer id) {
 		Cliente cliente = clienteService.fromDto(clienteDto);
 		cliente.setId(id);
@@ -68,14 +210,68 @@ public class ClientesController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(
+			value="Deleta um cliente", 
+			response=Cliente.class, 
+			notes="Essa operação tem como premissa está logado na aplicação com o token JWT no header da pagina, é necessário acesso de ADM")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=204, 
+					message="Retorna um nocontent informando que o cliente foi deletado"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, consumes="json/application", produces="json/application")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		clienteService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(value="/picture", method = RequestMethod.POST)
+	@ApiOperation(
+			value="Faz o update de uma imagem de cliente para o bucket da amazon", 
+			response=Cliente.class, 
+			notes="Essa operação tem como premissa está logado na aplicação com o token JWT no header da pagina, é necessário acesso de ADM")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=204, 
+					message="Retorna created informando que foi feito o upload com sucesso"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
+	@RequestMapping(value="/picture", method = RequestMethod.POST, consumes="json/application", produces="json/application")
 	public ResponseEntity<Void> insertPicture(@RequestParam(name="file")MultipartFile file){
 		URI uri = clienteService.uploadProfilePicture(file);
 		return ResponseEntity.created(uri).build();

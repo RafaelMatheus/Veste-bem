@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.vestebem.model.Pedido;
+import br.com.vestebem.model.dto.CidadeDto;
 import br.com.vestebem.service.PedidoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/pedidos")
@@ -24,12 +28,68 @@ public class PedidoController {
 	@Autowired
 	PedidoService pedidoService;
 
+	@ApiOperation(
+			value="Retorna os pedidos do usuário", 
+			response=CidadeDto.class,
+			consumes="",
+			notes="Essa operação não é necessário nenhuma premissa.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna todos pedidos com o status code ok"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Pedido> findById(@PathVariable Integer id) {
 		Pedido pedido = pedidoService.findById(id);
 		return ResponseEntity.ok().body(pedido);
 	}
 
+	@ApiOperation(
+			value="Realiza um novo pedido e envia o email para o usuário", 
+			response=CidadeDto.class,
+			consumes="",
+			notes="Essa é necessário realizar o login.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=201, 
+					message="Realiza um pedidos com o status created"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Pedido pedido) {
 		pedido = pedidoService.insert(pedido);
@@ -38,6 +98,34 @@ public class PedidoController {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(
+			value="Trás todos os pedidos com paginação", 
+			response=CidadeDto.class,
+			consumes="",
+			notes="Essa é necessário realizar o login.")
+	@ApiResponses(value= {
+			@ApiResponse(
+					code=200, 
+					message="Retorna todos pedidos com o status created"
+					),
+			@ApiResponse(
+					code=403,
+					message="Acesso negado, existem alguns endpoints neste path que é necessário acesso de ADM"
+
+					),
+			@ApiResponse(
+					code=401,
+					message="Indica que você não possui as credencias de autenticação válida. "
+
+					),
+			@ApiResponse(
+					code=404,
+					message="Indica que o recurso que você está procurando não existe, ou não foi encontrado."
+
+					)
+			
+ 
+	})
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<Page<Pedido>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
