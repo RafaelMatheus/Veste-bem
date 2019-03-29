@@ -50,5 +50,6 @@ public class AuthService {
 		else {//gera letra minuscula
 			return (char) (random.nextInt(26) + 97);
 		}
+		
 	}
 }
