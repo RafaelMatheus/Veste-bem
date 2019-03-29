@@ -53,7 +53,7 @@ public class AuthController {
 			
  
 	})
-	@RequestMapping(value = "/refresh_token", method = RequestMethod.POST, consumes="json/application", produces="json/application")
+	@RequestMapping(value = "/refresh_token", method = RequestMethod.POST)
 	public ResponseEntity<Void> refreshToken(HttpServletResponse response) {
 		UserSS user = UserService.authenticated();
 		String token = jwtUtil.generateToken(user.getUsername());

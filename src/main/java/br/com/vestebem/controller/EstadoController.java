@@ -57,7 +57,7 @@ public class EstadoController {
 			
  
 	})
-	@RequestMapping(method=RequestMethod.GET, produces="json/application")
+	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<EstadoDto>> findAll() {
 		List<Estado> estados = estadoService.findAllOrderByNome();
 		List<EstadoDto> listDto = estados.stream().map(obje -> new EstadoDto(obje)).collect(Collectors.toList());
@@ -93,7 +93,7 @@ public class EstadoController {
 			
  
 	})
-	@RequestMapping(value="/{estadoId}/cidades",method=RequestMethod.GET, produces="json/application")
+	@RequestMapping(value="/{estadoId}/cidades",method=RequestMethod.GET)
 	public ResponseEntity<List<CidadeDto>> findEstados(@PathVariable Integer estadoId) {
 		List<Cidade> cidades = cidadeService.findByEstado(estadoId);
 		List<CidadeDto> listDto = cidades.stream().map(obje -> new CidadeDto(obje)).collect(Collectors.toList());
