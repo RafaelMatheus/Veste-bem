@@ -5,6 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.Pedido;
 
+@Service
 public interface EmailService {
 	public void sendOrderConfirmationEmail(Pedido pedido);
 
