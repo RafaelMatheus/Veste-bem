@@ -1,6 +1,7 @@
 package br.com.vestebem.service;
 
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.stereotype.Service;
 
 import br.com.vestebem.model.Cliente;
 import br.com.vestebem.model.Pedido;
